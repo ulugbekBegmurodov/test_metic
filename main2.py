@@ -2,19 +2,19 @@
 from web3.middleware import geth_poa_middleware
 from web3 import Web3
 rpc_url = "https://polygon-testnet.public.blastapi.io"
-web3 = Web3(Web3.HTTPProvider(rpc_url))
+bsd = Web3(Web3.HTTPProvider(rpc_url))
 
 my_address = '0x8D736A5Bc12908C921BFEc525c5203C7f713Fa9E'
 you_address = '0x4Ba760E5361cf7c9031698ea6dF979a9e989e869'
 
 
-web3.middleware_onion.inject(geth_poa_middleware, layer=0)
-web3.eth.account.enable_unaudited_hdwallet_features()
+bsd.middleware_onion.inject(geth_poa_middleware, layer=0)
+bsd.eth.account.enable_unaudited_hdwallet_features()
 
 
 MNEMONIC = 'token devote either act original purse dignity laptop portion suggest rocket call'
 
-account = web3.eth.account.from_mnemonic(MNEMONIC)
+account = bsd.eth.account.from_mnemonic(MNEMONIC)
 private_key = account._private_key
 
 
@@ -47,17 +47,17 @@ def build_txn(
 
 
 transaction = build_txn(
-    web3=web3,
+    web3=bsd,
     from_address=my_address,
     to_address=you_address,
     amount=0.333,
 )
 
 
-signed_txn = web3.eth.account.sign_transaction(transaction, private_key)
+signed_txn = bsd.eth.account.sign_transaction(transaction, private_key)
 
 
-txn_hash = web3.eth.send_raw_transaction(signed_txn.rawTransaction)
+txn_hash = bsd.eth.send_raw_transaction(signed_txn.rawTransaction)
 
 
 print(txn_hash.hex())
